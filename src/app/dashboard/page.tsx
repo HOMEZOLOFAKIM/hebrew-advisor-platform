@@ -2,7 +2,10 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { SignOutButton } from '@/components/auth/SignOutButton'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { StatsCard } from '@/components/dashboard/StatsCard'
+import { RecentLeads } from '@/components/dashboard/RecentLeads'
+import { RecentActivity } from '@/components/dashboard/RecentActivity'
+import { Users, Calendar, FileText, TrendingUp } from 'lucide-react'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
@@ -25,51 +28,58 @@ export default async function DashboardPage() {
     .single()
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="mb-8 flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">
-              ברוך הבא, {advisor?.display_name || user.email}!
-            </h1>
-            <p className="mt-2 text-gray-600">
-              לוח הבקרה שלך - נתחיל לעבוד
-            </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <div className="bg-white border-b border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            <div>
+              <h1 className="text-2xl font-bold text-gray-900">
+                לוח בקרה
+              </h1>
+              <p className="text-sm text-gray-600">
+                ברוך הבא, {advisor?.display_name || user.email}!
+              </p>
+            </div>
+            <SignOutButton />
           </div>
-          <SignOutButton />
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatsCard
+            title="לידים חדשים"
+            value="26"
+            icon={<Users className="h-6 w-6" />}
+            change="+12.5%"
+          />
+          <StatsCard
+            title="פגישות החודש"
+            value="12"
+            icon={<Calendar className="h-6 w-6" />}
+            change="+8.3%"
+          />
+          <StatsCard
+            title="הצעות נשלחות"
+            value="8"
+            icon={<FileText className="h-6 w-6" />}
+            change="+25.0%"
+          />
+          <StatsCard
+            title="שיעור המרה"
+            value="15.2%"
+            icon={<TrendingUp className="h-6 w-6" />}
+            change="-2.1%"
+          />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>פרופיל אישי</CardTitle>
-              <CardDescription>נהל את פרטיך האישיים</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600">אימייל: {user.email}</p>
-              <p className="text-sm text-gray-600">תוכנית: {advisor?.plan || 'free_tier'}</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>הגדרות הבוט</CardTitle>
-              <CardDescription>התאם את הבוט שלך</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600">בקרוב...</p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>לידים</CardTitle>
-              <CardDescription>נהל את הלידים שלך</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-gray-600">בקרוב...</p>
-            </CardContent>
-          </Card>
+        {/* Recent Data Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <RecentLeads />
+          <RecentActivity />
         </div>
       </div>
     </div>
