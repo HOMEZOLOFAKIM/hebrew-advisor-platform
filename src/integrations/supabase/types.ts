@@ -9,7 +9,301 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      advisors: {
+        Row: {
+          created_at: string
+          display_name: string | null
+          email: string
+          id: string
+          onboarding_completed: boolean
+          plan: string
+        }
+        Insert: {
+          created_at?: string
+          display_name?: string | null
+          email: string
+          id: string
+          onboarding_completed?: boolean
+          plan?: string
+        }
+        Update: {
+          created_at?: string
+          display_name?: string | null
+          email?: string
+          id?: string
+          onboarding_completed?: boolean
+          plan?: string
+        }
+        Relationships: []
+      }
+      appointments: {
+        Row: {
+          advisor_id: string
+          created_at: string
+          description: string | null
+          end_time: string
+          google_calendar_event_id: string | null
+          id: string
+          lead_id: string | null
+          start_time: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          created_at?: string
+          description?: string | null
+          end_time: string
+          google_calendar_event_id?: string | null
+          id?: string
+          lead_id?: string | null
+          start_time: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          created_at?: string
+          description?: string | null
+          end_time?: string
+          google_calendar_event_id?: string | null
+          id?: string
+          lead_id?: string | null
+          start_time?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "appointments_advisor_id_fkey"
+            columns: ["advisor_id"]
+            isOneToOne: false
+            referencedRelation: "advisors"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "appointments_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      bot_settings: {
+        Row: {
+          advisor_id: string
+          business_name: string | null
+          default_system_prompt: string | null
+          gemini_api_key_encrypted: string | null
+          gemini_key_salt: string | null
+          google_calendar_refresh_token_encrypted: string | null
+          google_calendar_token_salt: string | null
+          ui_preferences: Json
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          business_name?: string | null
+          default_system_prompt?: string | null
+          gemini_api_key_encrypted?: string | null
+          gemini_key_salt?: string | null
+          google_calendar_refresh_token_encrypted?: string | null
+          google_calendar_token_salt?: string | null
+          ui_preferences?: Json
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          business_name?: string | null
+          default_system_prompt?: string | null
+          gemini_api_key_encrypted?: string | null
+          gemini_key_salt?: string | null
+          google_calendar_refresh_token_encrypted?: string | null
+          google_calendar_token_salt?: string | null
+          ui_preferences?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bot_settings_advisor_id_fkey"
+            columns: ["advisor_id"]
+            isOneToOne: true
+            referencedRelation: "advisors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          advisor_id: string
+          content: string
+          created_at: string
+          id: number
+          msg_index: number
+          role: string
+          session_id: string
+        }
+        Insert: {
+          advisor_id: string
+          content: string
+          created_at?: string
+          id?: never
+          msg_index: number
+          role: string
+          session_id?: string
+        }
+        Update: {
+          advisor_id?: string
+          content?: string
+          created_at?: string
+          id?: never
+          msg_index?: number
+          role?: string
+          session_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_advisor_id_fkey"
+            columns: ["advisor_id"]
+            isOneToOne: false
+            referencedRelation: "advisors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      knowledge_base_items: {
+        Row: {
+          advisor_id: string
+          category: string | null
+          content: string
+          created_at: string
+          id: string
+          is_active: boolean
+          tags: string[] | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          category?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          category?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "knowledge_base_items_advisor_id_fkey"
+            columns: ["advisor_id"]
+            isOneToOne: false
+            referencedRelation: "advisors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      landing_page_configs: {
+        Row: {
+          advisor_id: string
+          config: Json
+          created_at: string
+          id: string
+          is_published: boolean
+          page_name: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          config?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          page_name: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          config?: Json
+          created_at?: string
+          id?: string
+          is_published?: boolean
+          page_name?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "landing_page_configs_advisor_id_fkey"
+            columns: ["advisor_id"]
+            isOneToOne: false
+            referencedRelation: "advisors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      leads: {
+        Row: {
+          advisor_id: string
+          created_at: string
+          email: string | null
+          id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          source: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          advisor_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          advisor_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_advisor_id_fkey"
+            columns: ["advisor_id"]
+            isOneToOne: false
+            referencedRelation: "advisors"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
