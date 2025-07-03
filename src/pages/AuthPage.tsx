@@ -1,6 +1,6 @@
 
 import { useState } from 'react'
-import { createClient } from '@/integrations/supabase/client'
+import { supabase } from '@/integrations/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -17,7 +17,6 @@ export default function AuthPage() {
   const [displayName, setDisplayName] = useState('')
   const { toast } = useToast()
   const navigate = useNavigate()
-  const supabase = createClient()
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
